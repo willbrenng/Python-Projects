@@ -1,0 +1,12 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+econ_data = pd.read_csv("Economy_Indicators.csv")
+country_data = econ_data.drop(labels=0,axis=0)
+
+countries_sorted=(country_data.sort_values("Population",ascending=False))
+
+top_10_pop= countries_sorted.iloc[0:5,0:12]
+
+top_10_pop.plot(kind="pie",x="Country",y="Population")
+plt.show()
