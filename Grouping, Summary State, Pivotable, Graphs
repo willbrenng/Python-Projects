@@ -1,0 +1,45 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+econ_data = pd.read_csv("Economy_Indicators.csv")
+country_data = econ_data.drop(labels=0,axis=0)
+new_top_country_info = pd.read_csv("New_Country_info.csv")
+countries_sorted=(country_data.sort_values("Population",ascending=False))
+
+top_10_pop= countries_sorted.iloc[0:5,0:12]
+
+top_10_info = top_10_pop.merge(new_top_country_info,on="Country")
+
+#Grouped summary stats
+print(top_10_info.groupby("Continent")["GDP"].mean())
+print(top_10_info.groupby("Gov")[["GDP","Population"]].agg([sum,max]))
+
+#Pivot Table
+pivot_table = top_10_info.pivot_table(values="GDP",index=["Favorite Food","Gov"],columns="Continent",fill_value=0,margins=True,aggfunc=["sum","mean","count"])
+print(pivot_table)
+
+#Histogram
+top_10_info["Favorite Food"].hist()
+plt.show()
+plt.clf()
+
+#Bar
+df = top_10_info.groupby("Favorite Food")["GDP"].mean()
+df.plot(kind="bar")
+plt.show()
+plt.clf()
+
+#Line
+df1 = top_10_info.groupby("Gov")["GDP"].mean()
+df1.plot(x="Gov",y="GDP",kind="line")
+plt.show()
+plt.clf()
+
+#Scatter
+top_10_info.plot(x="Country",y="GDP",kind="scatter")
+plt.show()
+plt.clf()
+
+#Multiple Values
+top_10_info.plot(x="Country",y=["GDP","Population"],kind="bar")
+plt.show()
