@@ -1,0 +1,29 @@
+import numpy
+import pandas as pd
+
+dict = {"name":["Will","Bob","Phill","Mary","Betty","Ann","Zack","Brett","Domo","Steve"],
+"Age":[25,30,31,22,34,16,19,55,46,12],
+"Job":["Driver","Walker","Walker","Driver","Walker","Walker","Driver","Driver","Walker"," "]}
+
+df=pd.DataFrame(dict)
+list=["Will","Domo","Brett"]
+
+df.set_index("name")
+
+for x,y in df.iterrows():
+    if y["name"]=="Zack":
+        print("Zack, hello!")
+    else:
+        print("You are not ZAck")
+
+
+over_21= numpy.logical_and(df["Age"]>=21,df["Age"]<=30,df["Job"]=="Driver")
+
+def older(x):
+    x+1
+
+df["Age"]=df["Age"].apply(lambda x: x+1)
+
+df["name"]=df["name"].apply(lambda  x: str.lower(x))
+
+print(df)
